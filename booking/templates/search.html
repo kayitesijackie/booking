@@ -1,0 +1,153 @@
+{% extends 'base.html'%}
+{% load static %}
+
+
+{% block content %}
+<div class="container" style="background-color:rgb(27, 105, 177); width:100%;">
+
+  <div class="row route-update">
+    <!-- <div class="update-overlay"> -->
+      <div class="container">
+
+        <div class="update-route-container">
+            <div class="route">
+
+                <div class="text-xl" style="color: white">
+                  <span>{{search_departure_location}}</span>
+                  <span><i class="fa fa-long-arrow-right"></i></span>
+                  <span>{{search_arrival_location}}</span>
+                </div>
+
+              <div class="text-xl" style="color: white">{{convert_to_date}}</div>
+            </div>
+              
+            <!-- search form -->
+            <form action="{% url 'search_results' %}" class="search-form search-form-inline" style="margin-top:60px; margin: 20px">
+              <div class="column column-inline large-5">
+                <div class=" form-group input-search-bar ">
+
+                  <div class="input-group ">
+                    <input type="text" class="form-input form-control" id="search" autocorrect="off" id="SearchKeyword" data-test="search-input-input" placeholder="Source" tabindex="1" value="" name="depature-location" required>
+      
+                    <input type="text" class="form-input  form-control" id="search" autocorrect="off" id="SearchKeyword" data-test="search-input-input" placeholder="Destination" tabindex="1" value="" name="arrival-location" required>
+      
+                    <input type="date" class="form-input  form-control" id="search" autocorrect="off" id="SearchKeyword" data-test="search-input-input" placeholder="mm/dd/yy" tabindex="1" value=""  name="travel-date" required>
+      
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary route-button"style="margin-left: 5px " type="submit">Search</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </form>
+            <!-- search form end -->
+        </div>
+      </div>
+  
+    
+  </div>
+
+
+<div class="container-fluid results-page">
+
+  <div class="row results">
+
+    <div class="container" style="margin-top:100px;">
+      
+      {% if buses %}
+
+      <span style="color:white;"> {{buses|length}} buses found </span>
+
+      {% endif %}
+
+      {% if no_scheduled_bus_message %}
+
+      <span>{{no_scheduled_bus_message}}</span>
+
+      {% endif %}
+
+      {% if no_route_message %}
+
+      <span>{{no_route_message}}</span>
+
+      {% endif %}
+
+    </div>
+
+  </div>
+
+</div>
+</div>
+{% if buses %}
+
+<div class="container" >
+  
+  <table class="text-center" style="font-family: arial, sans-serif; border-collapse: collapse;height:100%;">
+    <tr style="background-color: grey">
+      <th style="border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;">Bus Company</th>
+      <th style="border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;">Deperture Time</th>
+      <th style="border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;">Estimated Duration</th>
+      <th style="border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;">Seats</th>
+      <th style="border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;">Price</th>
+    </tr>
+    {% for bus in buses %}
+    <tr style="color: black">
+      <td style="border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;">{{bus.bus.bus_organisation}}</td>
+      <td style="border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;">{{bus.departure_time | date:"g:i A"}}</td>
+      <td style="border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;" >{{estimation_duration}}</td>
+      {% if bus.seats == 0 %}
+      <td style="border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;" >The bus is full</td>
+      {% else %}
+      <td style="border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;" >{{bus.seats}}</td>
+      <td style="border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;" > Rw {{bus.price}}</td>
+      <td style="border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;" > 
+      <a href="{%url 'bus_details' bus.id%}">
+        <button class="btn btn-primary search-button">Select</button>    
+      </a></td>
+      {% endif %}
+    {% endfor %}
+  </tr>
+  </table>
+
+</div>
+ 
+  
+        {% endif %}
+     
+
+    </div>
+    <div class="row footer">
+        <div class="container">
+            <div class="row footer-content">
+                <h4>&copy <script type="text/javascript">
+                    document.write(new Date().getFullYear());
+                    </script> JustBooking</h4>
+            </div>
+        </div>
+    </div>
+{% endblock %}

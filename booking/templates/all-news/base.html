@@ -1,0 +1,26 @@
+{% load bootstrap3 %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+
+    {% if title %}
+    <title>Nanjye - {{ title }}</title>
+    {% else %}
+    <title>Nanjye</title>
+    {% load staticfiles%}
+    <link rel="stylesheet" href="{% static 'css/images.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    {% endif %} {% block styles %} {% bootstrap_css %} {% endblock %} {% include
+    "navbar.html" %}
+  </head>
+  <body>
+    <!-- <link rel="stylesheet" href="/static/css/basenews.css"> -->
+
+    {% block content %} {%endblock%} {% block scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    {% bootstrap_javascript %} {% endblock %}
+  </body>
+</html>

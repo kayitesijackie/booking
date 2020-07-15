@@ -1,0 +1,46 @@
+{%extends "registration/base.html"%}
+{% load bootstrap3 %}
+{% block content %}
+                        <!-- search form -->
+<div class="container" style="background-image:url('https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?cs=srgb&dl=background-blur-clean-531880.jpg&fm=jpg'); background-repeat: no-repeat; background-size: cover; padding-top: 800px;width: 2000px; ">
+      
+  <div class="row"style="height: 100vh" >
+    <!-- Empty div -->
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      {% if form.errors %}
+        <p> Password or Username is incorrect </p>
+      {% endif %}
+      <div class="panel panel-default" >
+
+        <div class="panel-heading" >
+          <h3 class="text-center">Sign In</h3>
+        </div>
+        <div class="panel-body">
+
+          <form  action="/accounts/login/" method="post" >
+            
+            {% csrf_token %}
+            {% bootstrap_form form%}
+
+            <div class="form-group">
+                <a href="{% url 'schedules' %}">
+              <input type="submit" class="btn btn-primary btn-xl" value="Login">
+            </div>
+
+            <input type="hidden" name="next" value="{{next}}">
+
+          </form>
+          
+
+        </div>
+
+      </div>
+
+    </div>
+    <!-- empty div -->
+    <div class="col-md-4"></div>
+  </div>
+</div>
+
+{% endblock %}
